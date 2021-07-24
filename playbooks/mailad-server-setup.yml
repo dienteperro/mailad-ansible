@@ -482,6 +482,19 @@
         mode: '0644'
         backup: yes
       when: ( mailad_enable_disclaimer is defined ) and ( mailad_enable_disclaimer|bool == True )
+      
+    - name: Forced reload configs
+      command: /usr/bin/newaliases
+      when: ( mailad_force_reload is defined ) and ( mailad_force_reload|bool == True )
+      notify:
+        - compile default.sieve
+        - postmap alias_virtuales
+        - postmap everyone_list_check
+        - postmap lista_negra
+        - postfix check
+        - Restart amavis
+        - Restart dovecot
+        - Run mail_groups_update
 
   handlers:
     - name: Apply aliases
