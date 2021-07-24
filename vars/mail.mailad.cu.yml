@@ -1,3 +1,5 @@
+apt_get_update_cache: True
+
 mailad_adminmail: "pavelmc@{{ mailad_domain }}"
 #mailad_alwaysbcc: 
 mailad_amavis_templates:
