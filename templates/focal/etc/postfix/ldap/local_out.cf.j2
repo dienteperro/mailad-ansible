@@ -1,0 +1,10 @@
+# LDAP to postfix link
+server_host = {{ mailad_ldapuri }}
+timeout = 10
+search_base = {{ mailad_ldapsearchbase }}
+query_filter = (&(mail=%u@%d)(memberOf=cn=Local_mail,ou=MAIL_ACCESS,{{ mailad_ldapsearchbase }}))
+result_attribute = mail
+result_format = mail_local_out
+bind = yes
+bind_dn = {{ mailad_ldapbinduser }}
+bind_pw = {{ mailad_ldapbindpasswd }}
