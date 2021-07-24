@@ -433,7 +433,7 @@
         home: /var/spool/filter
         system: yes
         comment: Postfix Filters
-      when: ( mailad_enable_disclaimer is defined ) and ( mailad_enable_disclaimer |bool == True )
+      when: ( mailad_enable_disclaimer is defined ) and ( mailad_enable_disclaimer|bool == True )
 
     - name: Check if /var/spool/filter directory exists
       stat:
@@ -447,7 +447,7 @@
         owner: filter
         group: filter
         mode: '0750'
-      when: ( not var_spool_filter_directory_present['stat']['exists'] ) and ( mailad_enable_disclaimer is defined ) and ( mailad_enable_disclaimer |bool == True )
+      when: ( not var_spool_filter_directory_present['stat']['exists'] ) and ( mailad_enable_disclaimer is defined ) and ( mailad_enable_disclaimer|bool == True )
 
     - name: Check if /etc/disclaimer directory exists
       stat:
@@ -461,7 +461,7 @@
         owner: root
         group: root
         mode: '0755'
-      when: ( not etc_disclaimer_directory_present['stat']['exists'] ) and ( mailad_enable_disclaimer is defined ) and ( mailad_enable_disclaimer |bool == True )
+      when: ( not etc_disclaimer_directory_present['stat']['exists'] ) and ( mailad_enable_disclaimer is defined ) and ( mailad_enable_disclaimer|bool == True )
 
     - name: Apply template to /etc/postfix/disclaimer
       template:
@@ -471,7 +471,7 @@
         group: filter
         mode: '0750'
         backup: yes
-      when: ( mailad_enable_disclaimer is defined ) and ( mailad_enable_disclaimer |bool == True )
+      when: ( mailad_enable_disclaimer is defined ) and ( mailad_enable_disclaimer|bool == True )
 
     - name: Apply template to /etc/disclaimer/disclaimer.txt
       template:
@@ -481,7 +481,7 @@
         group: filter
         mode: '0644'
         backup: yes
-      when: ( mailad_enable_disclaimer is defined ) and ( mailad_enable_disclaimer |bool == True )
+      when: ( mailad_enable_disclaimer is defined ) and ( mailad_enable_disclaimer|bool == True )
 
   handlers:
     - name: Apply aliases
