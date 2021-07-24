@@ -1,0 +1,10 @@
+# File modified at provision time, #MailAD
+postmaster:       root
+clamav:		root
+amavis:       root
+spamasassin:       root
+{% if ( mailad_sysadmins is not defined ) or ( not mailad_sysadmins ) %}
+root:     {{ mailad_adminmail }}
+{% elif ( mailad_sysadmins is defined ) and ( mailad_sysadmins|length > 0 ) %}
+root:     {{ mailad_sysadmins }}
+{% endif %}
