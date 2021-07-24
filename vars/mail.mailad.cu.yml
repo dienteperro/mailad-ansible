@@ -110,6 +110,7 @@ mailad_disclaimer_reach_locals: yes
 #proponer OU y grupos a filtrar en variables
 #mailad_escdomain: "{{ mailad_domain }}"
 mailad_escnational: cu
+mailad_force_reload: no
 mailad_ssl_cacert: /etc/ssl/certs/cacert.pem
 # Valor predeterminado de mailad_ssl_cert: /etc/ssl/certs/mail.crt
 #mailad_ssl_cert: /etc/ssl/certs/mail.crt
