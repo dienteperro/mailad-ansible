@@ -1,5 +1,5 @@
 # mailad-ansible
-Ansible implementation of MailAD (https://github.com/stdevPavelmc/mailad)
+Ansible implementation of [MailAD](https://github.com/stdevPavelmc/mailad)
 
 How to use:
 
