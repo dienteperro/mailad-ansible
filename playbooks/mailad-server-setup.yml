@@ -135,7 +135,7 @@
 
     - name: Apply template to /etc/postfix/aliases/alias_virtuales
       template:
-        src: ../templates/{{ ansible_distribution_release }}/etc/postfix/aliases/alias_virtuales.j2
+        src: ../templates/{{ ansible_fqdn }}/etc/postfix/aliases/alias_virtuales.j2
         dest: /etc/postfix/aliases/alias_virtuales
         owner: root
         group: root
