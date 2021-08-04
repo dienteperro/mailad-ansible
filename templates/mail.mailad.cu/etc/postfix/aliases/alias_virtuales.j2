@@ -1,0 +1,32 @@
+# Listado de alias virtuales para el dominio
+# 
+# hacer al terminar "postmap alias_virtuales && postfix reload"
+
+# #####################################################
+# DEFAULTS del dominio por RFC
+# TIENEN que apuntar a una direccion valida
+# incluso puede apuntar a otro alias
+# #####################################################
+{% if mailad_sysadmins is defined and mailad_sysadmins %}
+abuse@{{ mailad_domain }}			{{ mailad_sysadmins }}
+{% else %}
+abuse@{{ mailad_domain }}			{{ mailad_adminmail }}
+{% endif %}
+{% if mailad_sysadmins is defined and mailad_sysadmins %}
+postmaster@{{ mailad_domain }}		{{ mailad_sysadmins }}
+{% else %}
+postmaster@{{ mailad_domain }}		{{ mailad_adminmail }}
+{% endif %}
+
+# Cargos
+#direccion@{{ mailad_domain }}		director@{{ mailad_domain }}
+#directora@{{ mailad_domain }}		director@{{ mailad_domain }}
+#informatico@{{ mailad_domain }}		adminred@{{ mailad_domain }}
+#economia@{{ mailad_domain }}		jefe.econ@{{ mailad_domain }}
+
+# nombres raros que la gente escribe mal
+#yadira@{{ mailad_domain }}		yadyra@{{ mailad_domain }}
+
+# facturas del banco (me lo vas a agradecer)
+#facturas@{{ mailad_domain }}		jefe.econ@{{ mailad_domain }},contab1@{{ mailad_domain }},pagos@{{ mailad_domain }}
+
