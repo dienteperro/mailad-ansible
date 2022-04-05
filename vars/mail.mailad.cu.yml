@@ -55,18 +55,19 @@ mailad_postfix_templates:
   - bounce.cf
   - main.cf
   - master.cf
-  - ldap/email2user.cf
-  - ldap/local_in.cf
-  - ldap/local_out.cf
-  - ldap/mailbox_maps.cf
-  - ldap/national_in.cf
-  - ldap/national_out.cf
   - rules/auth_filter.pcre
   - rules/body_checks
   - rules/command_filter.pcre
   - rules/disclaimer_domains
   - rules/filter_nat
   - rules/header_checks
+mailad_postfix_ldap_templates:
+  - email2user.cf
+  - local_in.cf
+  - local_out.cf
+  - mailbox_maps.cf
+  - national_in.cf
+  - national_out.cf
 #For Proxmox Mail Gateway use:
 mailad_relay: "[X.Y.Z.A]:26"
 # grupo de admins
@@ -79,9 +80,11 @@ mailad_vmailhome: "/home/{{ mailad_vmailname }}"
 mailad_everyone:
 mailad_everyone_allow_external_access: no
 mailad_dovecot_spam_filter_enabled: yes
-#pasar a lista con todos los dc a usar
-mailad_hostad: "dc.{{ mailad_domain }}"
-mailad_ldapuri: "ldaps://{{ mailad_hostad }}:636/"
+# The folllowing list of ADs can contain just one item,
+# insert several for redundancy:
+mailad_hostad:
+  - "dc1.{{ mailad_domain }}"
+  - "dc2.{{ mailad_domain }}"
 mailad_secureldap: yes
 mailad_ldapbinduser: cn=linux,cn=Users,dc=mailad,dc=cu
 mailad_ldapbindpasswd: Passw0rd---
