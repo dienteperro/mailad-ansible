@@ -136,6 +136,7 @@ required_packages:
     - dovecot-pop3d
     - dovecot-sieve
     - ldap-utils
+    - libldap-common
     - libnet-ldap-perl
     - mailutils
     - p7zip-full
