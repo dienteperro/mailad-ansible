@@ -212,6 +212,17 @@
       loop: "{{ mailad_postfix_templates }}"
       notify: postfix check
 
+    - name: "Apply templates to /etc/postfix/ldap folder items"
+      template:
+        src: "../templates/{{ ansible_distribution_release }}/etc/postfix/ldap/{{ item }}.j2"
+        dest: "/etc/postfix/ldap/{{ item }}"
+        owner: root
+        group: root
+        mode: '0640'
+        backup: yes
+      loop: "{{ mailad_postfix_ldap_templates }}"
+      notify: postfix check
+
     - name: Check if /etc/amavis directory exists
       stat:
         path: /etc/amavis
