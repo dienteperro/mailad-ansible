@@ -23,7 +23,7 @@ echo "===> Trying to retrieve all the emails to form the EVERYONE list"
 echo "===> login into {{ mailad_hostad }} as {{ mailad_ldapbinduser }}"
 
 # LDAP query
-RESULT=`ldapsearch -o ldif-wrap=no -H "{{ mailad_ldapuri }}" -D "{{ mailad_ldapbinduser }}" -w "{{ mailad_ldapbindpasswd }}" -b "{{ mailad_ldapsearchbase }}" "(&(objectCategory=person)(objectClass=user)(sAMAccountName=*))" mail | grep "mail: " | grep "@{{ mailad_domain }}" | awk '{print $2}' | tr '\n' ','`
+RESULT=`ldapsearch -o ldif-wrap=no -H "{% if mailad_hostad is defined %}{% for item in mailad_hostad %}ldaps://{{ item }}:636/{% if not loop.last %} {% endif %}{% endfor %}{% endif %}" -D "{{ mailad_ldapbinduser }}" -w "{{ mailad_ldapbindpasswd }}" -b "{{ mailad_ldapsearchbase }}" "(&(objectCategory=person)(objectClass=user)(sAMAccountName=*))" mail | grep "mail: " | grep "@{{ mailad_domain }}" | awk '{print $2}' | tr '\n' ','`
 
 if [ "$RESULT" == "" ] ; then
     # empy result: Fail
@@ -40,7 +40,7 @@ fi
 
 # Getting the list of the groups in the search base
 TEMP=`mktemp`
-ldapsearch -o ldif-wrap=no -H "{{ mailad_ldapuri }}" -D "{{ mailad_ldapbinduser }}" -w "{{ mailad_ldapbindpasswd }}" -b "{{ mailad_ldapsearchbase }}" "(&(objectClass=group)(mail=*))" dn | grep "^dn:" > $TEMP
+ldapsearch -o ldif-wrap=no -H "{% if mailad_hostad is defined %}{% for item in mailad_hostad %}ldaps://{{ item }}:636/{% if not loop.last %} {% endif %}{% endfor %}{% endif %}" -D "{{ mailad_ldapbinduser }}" -w "{{ mailad_ldapbindpasswd }}" -b "{{ mailad_ldapsearchbase }}" "(&(objectClass=group)(mail=*))" dn | grep "^dn:" > $TEMP
 
 declare -a RES
 # parsing the group names, as it can be coded in base64 when non default charset is used
@@ -60,10 +60,10 @@ rm $TEMP
 
 for G in "${RES[@]}"; do
     # search the group dn
-    GEM=`ldapsearch -o ldif-wrap=no -H "{{ mailad_ldapuri }}" -D "{{ mailad_ldapbinduser }}" -w "{{ mailad_ldapbindpasswd }}" -b "{{ mailad_ldapsearchbase }}" "(&(objectClass=group)(distinguishedName=$G))" mail | grep "mail: " | awk '{print $2}'`
+    GEM=`ldapsearch -o ldif-wrap=no -H "{% if mailad_hostad is defined %}{% for item in mailad_hostad %}ldaps://{{ item }}:636/{% if not loop.last %} {% endif %}{% endfor %}{% endif %}" -D "{{ mailad_ldapbinduser }}" -w "{{ mailad_ldapbindpasswd }}" -b "{{ mailad_ldapsearchbase }}" "(&(objectClass=group)(distinguishedName=$G))" mail | grep "mail: " | awk '{print $2}'`
 
     if [ "$GEM" ] ; then
-        RESULT=`ldapsearch -o ldif-wrap=no -H "{{ mailad_ldapuri }}" -D "{{ mailad_ldapbinduser }}" -w "{{ mailad_ldapbindpasswd }}" -b "{{ mailad_ldapsearchbase }}" "(&(objectCategory=person)(objectClass=user)(sAMAccountName=*)(memberOf=$G))" mail | grep "mail: " | awk '{print$2}' | tr '\n' ','`
+        RESULT=`ldapsearch -o ldif-wrap=no -H "{% if mailad_hostad is defined %}{% for item in mailad_hostad %}ldaps://{{ item }}:636/{% if not loop.last %} {% endif %}{% endfor %}{% endif %}" -D "{{ mailad_ldapbinduser }}" -w "{{ mailad_ldapbindpasswd }}" -b "{{ mailad_ldapsearchbase }}" "(&(objectCategory=person)(objectClass=user)(sAMAccountName=*)(memberOf=$G))" mail | grep "mail: " | awk '{print$2}' | tr '\n' ','`
 
         echo "# Group: $G" >> /etc/postfix/aliases/auto_aliases
         echo "$GEM   $RESULT" >> /etc/postfix/aliases/auto_aliases
