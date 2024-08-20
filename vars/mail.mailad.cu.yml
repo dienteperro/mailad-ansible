@@ -100,7 +100,7 @@ mailad_dnsbl_list: zen.spamhaus.org=127.0.0.[2..11]*2, psbl.surriel.com, bl.spam
 mailad_enable_spf: no
 mailad_enable_av: no
 mail_use_av_alternate_mirror: yes
-mail_ad_av_alt_mirrors: http://mirror.webtastix.net/clamav http://103.230.76.202/clamav http://mirrors.mediatemple.net/freshclam http://repo.virtualhosting.hk/clamavdb
+mail_ad_av_alt_mirrors: https://packages.microsoft.com/clamav/ http://40.65.182.21/clamav/ http://13.79.133.120/clamav/ http://137.135.134.16/clamav/
 mailad_enable_spamd: no
 #mailad_proxy_host:
 #mailad_proxy_port:
