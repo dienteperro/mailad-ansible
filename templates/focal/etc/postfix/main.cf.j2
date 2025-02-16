@@ -27,7 +27,22 @@ myorigin = $myhostname
 # si estas directo a internet debes dejarlo en blanco
 # Si es un IP se debe poner entre [1.2.3.4] para que postfix sepa
 # que es IP y no haga consulta DNS
-relayhost = {{ mailad_relay }}
+# Si hay varios, en Postfix >= 3.5 separarlos por comas
+# Ver http://www.postfix.org/postconf.5.html#relayhost
+{% if mailad_relay is defined %}
+{% if ansible_facts.packages['postfix'][0].version is version('3.5.0', '>=') %}
+relayhost = {% for item in mailad_relay %}{{ item }}{% if not loop.last %}, {% endif %}{% endfor %}
+{% else %}
+relayhost = {{ mailad_relay[0] }}
+{% endif %}
+{% endif %}
+
+{% if mailad_smtp_fallback_relay is defined %}
+# host a quien debo entragarle el email para la salida hacia el exterior
+# si relayhost no esta disponible
+# Ver http://www.postfix.org/postconf.5.html#smtp_fallback_relay
+smtp_fallback_relay = {% for item in mailad_smtp_fallback_relay %}{{ item }}{% if not loop.last %}, {% endif %}{% endfor %}
+{% endif %}
 
 # mi red, por seguridad mi red soy yo y los servers de la DMZ
 mynetworks = 127.0.0.0/8 {{ mailad_mynetwork }}
