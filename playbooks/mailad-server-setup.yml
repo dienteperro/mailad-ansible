@@ -41,6 +41,10 @@
         force_apt_get: True
       when: ( apt_get_update_cache is defined ) and ( apt_get_update_cache|bool == True ) and ( mailad_enable_spamd is defined ) and ( mailad_enable_spamd|bool == True )
 
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+        manager: auto
+
     - name: Ensure "{{ mailad_vmailname }}" group exists
       group:
         name: "{{ mailad_vmailname }}"
