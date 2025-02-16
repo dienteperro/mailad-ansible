@@ -68,8 +68,14 @@ mailad_postfix_ldap_templates:
   - mailbox_maps.cf
   - national_in.cf
   - national_out.cf
-#For Proxmox Mail Gateway use:
-mailad_relay: "[X.Y.Z.A]:26"
+#A list of several upstream relays, for Proxmox Mail Gateway use ":26" as delivery port:
+mailad_relay:
+  - "[X.Y.Z.A]:26"
+  - "[A.B.C.D]:26"
+#For redundant relays used if mailad_relay are NOT reachable, use:
+mailad_smtp_fallback_relay:
+  - "[E.F.G.H]"
+  - "[I.J.K.L]:26"
 # grupo de admins
 #mailad_sysadmins: 
 mailad_vmailname: vmail
